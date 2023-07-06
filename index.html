@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+
+		<style>
+			.block {
+				width: 100px;
+				height: 100px;
+
+				background: rgb(30, 18, 205);
+				margin: 5px;
+
+				font-size: 20px;
+				font-weight: 800;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			const originalPositions = new Map();
+			const container = document.body;
+
+			function renderBlocks(countOfBlocks = 10) {
+				const template = document.createDocumentFragment();
+
+				for (let i = 0; i < countOfBlocks; i++) {
+					const div = document.createElement("div");
+					div.className = "block";
+					div.textContent = `div ${i + 1}`;
+					template.appendChild(div);
+				}
+
+				document.body.appendChild(template);
+			}
+
+			renderBlocks(100);
+
+			function moveBlock(event) {
+				const div = event.target;
+
+				if (originalPositions.has(div)) {
+					const originalIndex = originalPositions.get(div);
+
+					container.insertBefore(div, container.children[originalIndex + 1]);
+					originalPositions.delete(div);
+				} else {
+					const currentIndex = Array.from(container.children).indexOf(div);
+
+					container.insertBefore(div, container.firstChild);
+					originalPositions.set(div, currentIndex);
+				}
+			}
+
+			document.addEventListener("click", moveBlock);
+		</script>
+	</body>
+</html>
