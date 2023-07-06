@@ -43,7 +43,10 @@
 			renderBlocks(100);
 
 			function moveBlock(event) {
+				const isBlock = event.target.classList.contains("block");
 				const div = event.target;
+
+				if (!isBlock) return;
 
 				if (originalPositions.has(div)) {
 					const originalIndex = originalPositions.get(div);
